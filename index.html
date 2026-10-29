@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Digital Garage — Your Car. Your Costs. Under Control.</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+          },
+          colors: {
+            garage: {
+              bg: '#08080a',
+              card: '#121216',
+              cardInner: '#18181d',
+              border: '#24242c',
+              orange: '#ff7a00',
+              orangeHover: '#ff8c1a',
+              orangeMuted: 'rgba(255, 122, 0, 0.14)',
+              green: '#22c55e',
+              amber: '#f59e0b',
+              red: '#ef4444',
+              purple: '#a855f7',
+              blue: '#3b82f6'
+            }
+          },
+          boxShadow: {
+            'orange-glow': '0 10px 35px -5px rgba(255, 122, 0, 0.45)',
+            'orange-glow-sm': '0 4px 20px -2px rgba(255, 122, 0, 0.3)',
+            'phone': '0 25px 60px -15px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255,255,255,0.08)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #08080a;
+      color: #f4f4f6;
+      overflow-x: hidden;
+    }
+
+    /* Custom Scrollbar for App Screens */
+    .phone-scroll::-webkit-scrollbar {
+      width: 3px;
+    }
+    .phone-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .phone-scroll::-webkit-scrollbar-thumb {
+      background: #2c2c35;
+      border-radius: 10px;
+    }
+
+    /* Hero Automotive Backdrop with Sunset Glow */
+    .hero-backdrop {
+      background: 
+        radial-gradient(circle at 72% 38%, rgba(255, 122, 0, 0.22) 0%, rgba(180, 65, 0, 0.08) 35%, transparent 65%),
+        radial-gradient(circle at 42% 58%, rgba(37, 99, 235, 0.14) 0%, transparent 50%),
+        linear-gradient(180deg, rgba(8, 8, 10, 0.75) 0%, rgba(8, 8, 10, 0.55) 45%, rgba(8, 8, 10, 0.96) 88%, #08080a 100%),
+        url('https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=1920&q=85') center 55% / cover no-repeat;
+    }
+
+    /* Subtle wet-asphalt reflection effect at bottom of hero */
+    .asphalt-glow {
+      background: linear-gradient(90deg, transparent 0%, rgba(255, 122, 0, 0.12) 35%, rgba(255, 136, 0, 0.22) 50%, rgba(255, 122, 0, 0.1) 65%, transparent 100%);
+    }
+
+    /* Phone Bezel Styling */
+    .phone-frame {
+      background: #050507;
+      border-radius: 38px;
+      border: 6px solid #1e1f26;
+      box-shadow: 
+        0 30px 70px -12px rgba(0, 0, 0, 0.95),
+        0 0 0 1px rgba(255, 255, 255, 0.12),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+    }
+    .phone-frame:hover {
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: 
+        0 35px 80px -10px rgba(0, 0, 0, 0.98),
+        0 0 25px -5px rgba(255, 122, 0, 0.22),
+        0 0 0 1px rgba(255, 122, 0, 0.3);
+    }
+
+    .tabular-nums {
+      font-variant-numeric: tabular-nums;
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-garage-orange selection:text-black">
+
+  <!-- ===================================================================== -->
+  <!-- STICKY NAVBAR                                                         -->
+  <!-- ===================================================================== -->
+  <header class="sticky top-0 z-50 backdrop-blur-xl bg-[#08080a]/85 border-b border-white/[0.07]">
+    <div class="max-w-[1380px] mx-auto px-4 sm:px-8 h-20 flex items-center justify-between gap-4">
+      
+      <!-- Brand Logo -->
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-xl bg-garage-orange/15 border border-garage-orange/40 flex items-center justify-center text-garage-orange group-hover:bg-garage-orange group-hover:text-black transition-all">
+          <!-- Garage Roof + Car Silhouette SVG -->
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9.5L12 4l9 5.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/>
+            <path d="M7 13h10M7 16h10M7 19h10"/>
+          </svg>
+        </div>
+        <span class="font-display font-bold text-xl sm:text-2xl tracking-tight text-white">Digital Garage</span>
+      </a>
+
+      <!-- Center Nav Links -->
+      <nav class="hidden md:flex items-center gap-9 text-sm font-medium text-zinc-300">
+        <a href="#features" class="hover:text-garage-orange transition-colors">Features</a>
+        <a href="#screens" class="hover:text-garage-orange transition-colors">My Garage</a>
+        <a href="#how-it-works" class="hover:text-garage-orange transition-colors">How it works</a>
+        <a href="#download" class="hover:text-garage-orange transition-colors">Download</a>
+      </nav>
+
+      <!-- Right Action: Get the APK Button (Direct Backend/S3 Download) -->
+      <div class="flex items-center gap-3">
+        <a href="https://digital-garage-api.duckdns.org/api/download/apk" onclick="triggerApkDownload(event)"
+          class="apk-download-link bg-garage-orange hover:bg-garage-orangeHover text-black font-bold text-sm px-4 sm:px-5 py-2.5 rounded-xl flex items-center gap-2 shadow-orange-glow-sm transition-all active:scale-95">
+          <!-- Android Robot Icon -->
+          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+            <path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993.0001.5511-.4482.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.2439 13.8533 7.8508 12 7.8508s-3.5902.3931-5.1367 1.0989L4.841 5.4467a.4161.4161 0 00-.5677-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3435-4.1021-2.6892-7.5743-6.1185-9.4396"/>
+          </svg>
+          <span>Get the APK</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================================================================== -->
+  <!-- HERO SECTION (MATCHING REFERENCE IMAGE 1)                             -->
+  <!-- ===================================================================== -->
+  <section class="relative hero-backdrop pt-8 pb-14 lg:py-16 border-b border-white/[0.07]">
+    <div class="max-w-[1380px] mx-auto px-4 sm:px-8">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-6 items-center">
+        
+        <!-- LEFT HERO COLUMN: Copy & Primary Android CTA -->
+        <div class="lg:col-span-5 z-10 space-y-6 text-left">
+          <!-- Eyebrow Badge -->
+          <div class="inline-flex items-center gap-3">
+            <span class="w-8 h-[2px] bg-garage-orange"></span>
+            <span class="text-xs font-semibold uppercase tracking-[0.22em] text-zinc-300">
+              VEHICLE MAINTENANCE & EXPENSE TRACKER
+            </span>
+          </div>
+
+          <!-- Main Headline -->
+          <h1 class="font-display font-extrabold text-4xl sm:text-5xl xl:text-[56px] leading-[1.08] tracking-tight">
+            <span class="block text-white">Your car. Your costs.</span>
+            <span class="block text-garage-orange mt-1">Under control.</span>
+          </h1>
+
+          <!-- Subtitle -->
+          <p class="text-zinc-300 text-base sm:text-lg leading-relaxed max-w-md font-normal">
+            Track maintenance, fuel, and every expense — all in one garage.
+          </p>
+
+          <!-- Primary Download Button -->
+          <div class="pt-2 space-y-3">
+            <a href="https://digital-garage-api.duckdns.org/api/download/apk" onclick="triggerApkDownload(event)"
+              class="apk-download-link inline-flex items-center justify-center gap-3.5 bg-garage-orange hover:bg-garage-orangeHover text-black font-bold text-base sm:text-lg px-7 py-4 rounded-2xl shadow-orange-glow transition-all transform hover:-translate-y-0.5 active:scale-95">
+              <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                <path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993.0001.5511-.4482.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.2439 13.8533 7.8508 12 7.8508s-3.5902.3931-5.1367 1.0989L4.841 5.4467a.4161.4161 0 00-.5677-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3435-4.1021-2.6892-7.5743-6.1185-9.4396"/>
+              </svg>
+              <span>Download for Android</span>
+              <svg class="w-5 h-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+
+            <div class="flex flex-wrap items-center gap-2 text-xs sm:text-sm text-zinc-400">
+              <span>APK beta · Play Store & App Store coming soon</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT HERO COLUMN: 3 High-Fidelity Phone Mockups (Fuel, Costs & Expenses, Parts & Services) -->
+        <div class="lg:col-span-7 relative flex flex-col md:flex-row items-center justify-center gap-5 lg:gap-3 xl:gap-4 pt-4 lg:pt-0">
+          
+          <!-- =============================================================== -->
+          <!-- PHONE 1 (LEFT): FUEL SCREEN (Interactive Month / Year Switcher) -->
+          <!-- =============================================================== -->
+          <div class="phone-frame w-[275px] sm:w-[260px] xl:w-[268px] h-[550px] flex flex-col justify-between p-3 text-[10px] select-none md:-mr-2 lg:mt-6 z-10">
+            <!-- Status Bar -->
+            <div class="flex items-center justify-between px-2 pt-0.5 pb-1.5 text-[10px] font-semibold text-zinc-300">
+              <span>3:15</span>
+              <div class="w-14 h-3.5 bg-black rounded-full"></div>
+              <div class="flex items-center gap-1">
+                <span class="text-[9px] bg-green-500/20 text-green-400 px-1 rounded font-bold">97%</span>
+              </div>
+            </div>
+
+            <!-- App Header -->
+            <div class="flex items-center justify-between px-1 py-1">
+              <span class="text-zinc-400 text-xs">‹</span>
+              <span class="font-semibold text-xs text-white">Fuel</span>
+              <span class="text-zinc-400 text-xs">•••</span>
+            </div>
+
+            <!-- Scrollable Inner Content -->
+            <div class="phone-scroll overflow-y-auto space-y-2.5 pr-0.5 flex-1">
+              <!-- Vehicle Mini Header -->
+              <div class="flex items-center gap-2.5 bg-[#121216] p-2 rounded-xl border border-white/5">
+                <img src="https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&w=240&q=80" alt="Honda City" class="w-12 h-8 object-cover rounded-lg" />
+                <div>
+                  <div class="font-bold text-white text-[11px]">Honda City</div>
+                  <div class="text-zinc-400 text-[9px]">Fuel usage and costs</div>
+                </div>
+              </div>
+
+              <!-- Interactive Pill Tabs (Click Month or Year) -->
+              <div class="grid grid-cols-4 bg-[#121216] p-0.5 rounded-lg text-center text-[9px] font-medium text-zinc-400">
+                <span class="py-1 text-zinc-500">Week</span>
+                <button onclick="switchFuelView('month')" id="fuel-tab-month" class="py-1 bg-garage-orange text-black font-bold rounded-md transition-colors">Month</button>
+                <button onclick="switchFuelView('year')" id="fuel-tab-year" class="py-1 hover:text-white rounded-md transition-colors">Year</button>
+                <span class="py-1 text-zinc-500">Lifetime</span>
+              </div>
+
+              <!-- This Month / Yearly Overview Dynamic Card -->
+              <div class="bg-[#121216] p-2.5 rounded-xl border border-white/5 space-y-2">
+                <div class="flex items-center justify-between">
+                  <span id="fuel-period-title" class="font-semibold text-white text-[10px]">This Month</span>
+                  <span id="fuel-period-badge" class="text-[8px] text-zinc-400 bg-zinc-800/80 px-1.5 py-0.5 rounded">Oct 2025 ▾</span>
+                </div>
+                <!-- 3 Mini Metrics -->
+                <div class="grid grid-cols-3 gap-1.5 tabular-nums">
+                  <div class="bg-[#19191f] p-1.5 rounded-lg">
+                    <div id="fuel-metric-litres" class="text-garage-orange font-bold text-[10px]">182 L</div>
+                    <div class="text-[8px] text-zinc-400">Fuel Used</div>
+                  </div>
+                  <div class="bg-[#19191f] p-1.5 rounded-lg">
+                    <div id="fuel-metric-cost" class="text-red-400 font-bold text-[10px]">₹14,560</div>
+                    <div class="text-[8px] text-zinc-400">Fuel Cost</div>
+                  </div>
+                  <div class="bg-[#19191f] p-1.5 rounded-lg">
+                    <div id="fuel-metric-avg" class="text-green-400 font-bold text-[10px]">16.8 km/l</div>
+                    <div class="text-[8px] text-zinc-400">Avg Mileage</div>
+                  </div>
+                </div>
+
+                <!-- Bar + Line Chart SVG -->
+                <div class="pt-1">
+                  <svg viewBox="0 0 200 75" class="w-full h-16 overflow-visible">
+                    <line x1="15" y1="10" x2="185" y2="10" stroke="#23232b" stroke-width="0.7" />
+                    <line x1="15" y1="30" x2="185" y2="30" stroke="#23232b" stroke-width="0.7" />
+                    <line x1="15" y1="50" x2="185" y2="50" stroke="#23232b" stroke-width="0.7" />
+                    <!-- Blue Bars -->
+                    <rect x="26" y="28" width="16" height="32" rx="2" fill="#2563eb" />
+                    <rect x="60" y="20" width="16" height="40" rx="2" fill="#2563eb" />
+                    <rect x="94" y="30" width="16" height="30" rx="2" fill="#2563eb" />
+                    <rect x="128" y="18" width="16" height="42" rx="2" fill="#2563eb" />
+                    <rect x="162" y="23" width="16" height="37" rx="2" fill="#2563eb" />
+                    <!-- Orange Line -->
+                    <path d="M34 20 Q 68 32, 102 25 T 170 18" fill="none" stroke="#ff7a00" stroke-width="2" />
+                    <circle cx="34" cy="20" r="2.5" fill="#ff7a00" />
+                    <circle cx="68" cy="29" r="2.5" fill="#ff7a00" />
+                    <circle cx="102" cy="25" r="2.5" fill="#ff7a00" />
+                    <circle cx="136" cy="16" r="2.5" fill="#ff7a00" />
+                    <circle cx="170" cy="18" r="2.5" fill="#ff7a00" />
+                    <!-- Labels -->
+                    <text x="29" y="70" fill="#71717a" font-size="6">W1</text>
+                    <text x="63" y="70" fill="#71717a" font-size="6">W2</text>
+                    <text x="97" y="70" fill="#71717a" font-size="6">W3</text>
+                    <text x="131" y="70" fill="#71717a" font-size="6">W4</text>
+                    <text x="165" y="70" fill="#71717a" font-size="6">W5</text>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Fuel Efficiency Card -->
+              <div class="bg-[#121216] p-2.5 rounded-xl border border-white/5 space-y-1.5 tabular-nums">
+                <div class="flex items-center justify-between">
+                  <span class="font-semibold text-white text-[10px]">Fuel Efficiency</span>
+                  <span class="text-[8px] text-zinc-400">Oct 2025 ▾</span>
+                </div>
+                <div class="grid grid-cols-2 gap-2 items-center">
+                  <div class="bg-[#19191f] p-2 rounded-lg">
+                    <div class="text-white font-bold text-xs">16.8 km/l</div>
+                    <div class="text-[8px] text-zinc-400">Average Mileage</div>
+                    <div class="text-[8px] text-green-400 font-medium mt-0.5">↑ 5.2% vs last month</div>
+                  </div>
+                  <div class="space-y-1 text-[8.5px]">
+                    <div class="flex justify-between"><span class="text-zinc-400">Best</span><span class="text-white font-semibold">19.2 km/l</span></div>
+                    <div class="flex justify-between"><span class="text-zinc-400">Worst</span><span class="text-white font-semibold">14.5 km/l</span></div>
+                    <div class="flex justify-between"><span class="text-zinc-400">Distance</span><span id="fuel-metric-dist" class="text-white font-semibold">3,060 km</span></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Refuel History -->
+              <div class="bg-[#121216] p-2.5 rounded-xl border border-white/5 space-y-1.5 tabular-nums">
+                <div class="flex items-center justify-between">
+                  <span class="font-semibold text-white text-[10px]">Refuel History</span>
+                  <span class="text-[8px] text-garage-orange">View All ›</span>
+                </div>
+                <div class="space-y-1.5 text-[8.5px]">
+                  <div class="flex items-center justify-between text-zinc-300">
+                    <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-garage-orange"></span>12 Oct 2025</span>
+                    <span class="text-zinc-400">42.5 L · ₹3,610</span>
+                  </div>
+                  <div class="flex items-center justify-between text-zinc-300">
+                    <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-garage-orange"></span>28 Sep 2025</span>
+                    <span class="text-zinc-400">38.7 L · ₹3,290</span>
+                  </div>
+                  <div class="flex items-center justify-between text-zinc-300">
+                    <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-garage-orange"></span>15 Sep 2025</span>
+                    <span class="text-zinc-400">40.1 L · ₹3,420</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom CTA inside Phone -->
+            <div class="pt-2">
+              <div class="w-full bg-garage-orange text-black font-bold text-center py-2 rounded-xl text-[10px]">
+                + Add Fuel Entry
+              </div>
+            </div>
+          </div>
+
+          <!-- =============================================================== -->
+          <!-- PHONE 2 (CENTER ELEVATED): COSTS & EXPENSES SCREEN              -->
+          <!-- =============================================================== -->
+          <div class="phone-frame w-[290px] sm:w-[278px] xl:w-[292px] h-[590px] flex flex-col justify-between p-3.5 text-[10px] select-none z-20 shadow-2xl ring-1 ring-garage-orange/30">
+            <!-- Status Bar -->
+            <div class="flex items-center justify-between px-2 pt-0.5 pb-1.5 text-[10px] font-semibold text-zinc-300">
+              <span>3:15</span>
+              <div class="w-16 h-3.5 bg-black rounded-full"></div>
+              <div class="flex items-center gap-1">
+                <span class="text-[9px] bg-green-500/20 text-green-400 px-1 rounded font-bold">97%</span>
+              </div>
+            </div>
+
+            <!-- App Header -->
+            <div class="flex items-center justify-between px-1 py-1">
+              <span class="text-zinc-400 text-xs">‹</span>
+              <span class="font-semibold text-xs text-white">Costs & Expenses</span>
+              <span class="text-zinc-400 text-xs">☷</span>
+            </div>
+
+            <!-- Scrollable Content -->
+            <div class="phone-scroll overflow-y-auto space-y-2.5 pr-0.5 flex-1">
+              <!-- Vehicle Mini Header -->
+              <div class="flex items-center gap-2.5 bg-[#121216] p-2 rounded-xl border border-white/5">
+                <img src="https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&w=240&q=80" alt="Honda City" class="w-12 h-8 object-cover rounded-lg" />
+                <div>
+                  <div class="font-bold text-white text-[11px]">Honda City</div>
+                  <div class="text-zinc-400 text-[9px]">Maintenance and other expenses</div>
+                </div>
+              </div>
+
+              <!-- Toggle Tabs -->
+              <div class="grid grid-cols-2 bg-[#121216] p-0.5 rounded-lg text-center text-[9.5px] font-medium">
+                <span class="py-1 bg-garage-orange text-black font-bold rounded-md">Maintenance</span>
+                <span class="py-1 text-zinc-400">Other</span>
+              </div>
+
+              <!-- Total Expenses Card -->
+              <div class="bg-[#121216] p-2.5 rounded-xl border border-white/5 space-y-2 tabular-nums">
+                <div class="flex items-center justify-between">
+                  <span class="text-zinc-300 font-medium text-[10px]">Total Expenses</span>
+                  <span class="text-[8px] text-zinc-400 bg-zinc-800/90 px-1.5 py-0.5 rounded">All Time ▾</span>
+                </div>
+                <div class="text-xl font-extrabold text-garage-orange tracking-tight">₹32,600</div>
+                <div class="grid grid-cols-2 gap-2 text-[9px]">
+                  <div class="flex items-center gap-1.5">
+                    <span class="w-4 h-4 rounded bg-garage-orange/20 text-garage-orange flex items-center justify-center font-bold">🛠</span>
+                    <div>
+                      <div class="text-white font-bold">₹32,100</div>
+                      <div class="text-zinc-400 text-[8px]">Maintenance</div>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-1.5">
+                    <span class="w-4 h-4 rounded bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold">⚙</span>
+                    <div>
+                      <div class="text-white font-bold">₹500</div>
+                      <div class="text-zinc-400 text-[8px]">Modifications 2%</div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Progress Bar -->
+                <div class="w-full h-1.5 bg-zinc-800 rounded-full overflow-hidden flex">
+                  <div class="w-[95%] bg-garage-orange h-full"></div>
+                  <div class="w-[5%] bg-purple-500 h-full"></div>
+                </div>
+              </div>
+
+              <!-- Monthly Expenses Stacked Bar -->
+              <div class="bg-[#121216] p-2.5 rounded-xl border border-white/5 space-y-1.5">
+                <div class="flex items-center justify-between">
+                  <span class="font-semibold text-white text-[10px]">Monthly Expenses</span>
+                  <div class="flex bg-zinc-900 rounded p-0.5 text-[8px]">
+                    <span class="bg-garage-orange text-black font-bold px-1.5 py-0.5 rounded">Monthly</span>
+                    <span class="text-zinc-400 px-1.5 py-0.5">Yearly</span>
+                  </div>
+                </div>
+                <div class="grid grid-cols-12 gap-1 items-end h-12 pt-2 px-1">
+                  <div class="bg-garage-orange h-5 rounded-t-sm"></div>
+                  <div class="bg-garage-orange h-7 rounded-t-sm border-t-4 border-purple-500"></div>
+                  <div class="bg-garage-orange h-7 rounded-t-sm border-t-4 border-purple-500"></div>
+                  <div class="bg-garage-orange h-5 rounded-t-sm"></div>
+                  <div class="bg-garage-orange h-10 rounded-t-sm border-t-4 border-purple-500"></div>
+                  <div class="bg-garage-orange h-5 rounded-t-sm"></div>
+                  <div class="bg-garage-orange h-8 rounded-t-sm border-t-2 border-purple-500"></div>
+                  <div class="bg-garage-orange h-11 rounded-t-sm border-t-4 border-purple-500"></div>
+                  <div class="bg-garage-orange h-4 rounded-t-sm"></div>
+                  <div class="bg-garage-orange h-4 rounded-t-sm"></div>
+                  <div class="bg-garage-orange h-6 rounded-t-sm border-t-2 border-purple-500"></div>
+                  <div class="bg-garage-orange h-7 rounded-t-sm border-t-2 border-purple-500"></div>
+                </div>
+              </div>
+
+              <!-- Expense Breakdown Donut -->
+              <div class="bg-[#121216] p-2.5 rounded-xl border border-white/5 space-y-1.5 tabular-nums">
+                <div class="flex items-center justify-between">
+                  <span class="font-semibold text-white text-[10px]">Expense Breakdown</span>
+                  <span class="text-[8px] text-zinc-400">All Time ▾</span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <!-- Donut SVG -->
+                  <div class="relative w-16 h-16 flex items-center justify-center shrink-0">
+                    <svg class="w-full h-full -rotate-90" viewBox="0 0 36 36">
+                      <circle cx="18" cy="18" r="14" fill="none" stroke="#27272a" stroke-width="4.5"></circle>
+                      <circle cx="18" cy="18" r="14" fill="none" stroke="#ff7a00" stroke-width="4.5" stroke-dasharray="66 100"></circle>
+                      <circle cx="18" cy="18" r="14" fill="none" stroke="#22c55e" stroke-width="4.5" stroke-dasharray="12 100" stroke-dashoffset="-66"></circle>
+                      <circle cx="18" cy="18" r="14" fill="none" stroke="#a855f7" stroke-width="4.5" stroke-dasharray="10 100" stroke-dashoffset="-78"></circle>
+                      <circle cx="18" cy="18" r="14" fill="none" stroke="#3b82f6" stroke-width="4.5" stroke-dasharray="12 100" stroke-dashoffset="-88"></circle>
+                    </svg>
+                    <div class="absolute text-center leading-tight">
+                      <div class="text-[8px] font-bold text-white">₹32,600</div>
+                      <div class="text-[6px] text-zinc-400">Total</div>
+                    </div>
+                  </div>
+                  <!-- Legend -->
+                  <div class="flex-1 space-y-1 text-[8px]">
+                    <div class="flex justify-between"><span class="text-zinc-300">● Service & Maint.</span><span class="text-white font-semibold">₹24,800 <span class="text-zinc-500">76%</span></span></div>
+                    <div class="flex justify-between"><span class="text-green-400">● Tyres</span><span class="text-white font-semibold">₹3,200 <span class="text-zinc-500">10%</span></span></div>
+                    <div class="flex justify-between"><span class="text-purple-400">● Parts</span><span class="text-white font-semibold">₹2,500 <span class="text-zinc-500">8%</span></span></div>
+                    <div class="flex justify-between"><span class="text-blue-400">● Other</span><span class="text-white font-semibold">₹2,100 <span class="text-zinc-500">6%</span></span></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Recent Expenses -->
+              <div class="bg-[#121216] p-2.5 rounded-xl border border-white/5 space-y-1.5 tabular-nums">
+                <div class="flex items-center justify-between">
+                  <span class="font-semibold text-white text-[10px]">Recent Expenses</span>
+                  <span class="text-[8px] text-garage-orange">View All ›</span>
+                </div>
+                <div class="space-y-1.5 text-[8.5px]">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <div class="text-white font-medium">Engine Oil Change</div>
+                      <div class="text-zinc-500 text-[7.5px]">12 Aug 2025 • 53,000 km</div>
+                    </div>
+                    <span class="text-white font-semibold">₹3,200 ›</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <div class="text-white font-medium">Cabin Air Filter</div>
+                      <div class="text-zinc-500 text-[7.5px]">05 Jul 2025 • 45,500 km</div>
+                    </div>
+                    <span class="text-white font-semibold">₹850 ›</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom Button -->
+            <div class="pt-2">
+              <div class="w-full bg-garage-orange text-black font-bold text-center py-2 rounded-xl text-[10px]">
+                + Add Expense
+              </div>
+            </div>
+          </div>
+
+          <!-- =============================================================== -->
+          <!-- PHONE 3 (RIGHT): PARTS & SERVICES SCREEN                        -->
+          <!-- =============================================================== -->
+          <div class="phone-frame w-[275px] sm:w-[260px] xl:w-[268px] h-[550px] flex flex-col justify-between p-3 text-[10px] select-none md:-ml-2 lg:mt-6 z-10">
+            <!-- Status Bar -->
+            <div class="flex items-center justify-between px-2 pt-0.5 pb-1.5 text-[10px] font-semibold text-zinc-300">
+              <span>3:45</span>
+              <div class="w-14 h-3.5 bg-black rounded-full"></div>
+              <div class="flex items-center gap-1">
+                <span class="text-[9px] bg-green-500/20 text-green-400 px-1 rounded font-bold">97%</span>
+              </div>
+            </div>
+
+            <!-- App Header -->
+            <div class="flex items-center justify-between px-1 py-1">
+              <span class="text-zinc-400 text-xs">‹</span>
+              <span class="font-semibold text-xs text-white">Parts & Services</span>
+              <span class="text-zinc-400 text-xs">☷</span>
+            </div>
+
+            <!-- Scrollable Content -->
+            <div class="phone-scroll overflow-y-auto space-y-2 pr-0.5 flex-1 tabular-nums">
+              <!-- Vehicle Mini Header -->
+              <div class="flex items-center gap-2.5 bg-[#121216] p-2 rounded-xl border border-white/5">
+                <img src="https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&w=240&q=80" alt="Honda City" class="w-12 h-8 object-cover rounded-lg" />
+                <div>
+                  <div class="font-bold text-white text-[10.5px] uppercase">HONDA CITY</div>
+                  <div class="text-zinc-400 text-[9px]">Maintenance overview</div>
+                </div>
+              </div>
+
+              <!-- 3 Status Counters -->
+              <div class="grid grid-cols-3 gap-1.5">
+                <div class="bg-[#121216] p-2 rounded-xl border border-white/5">
+                  <div class="flex items-center justify-between">
+                    <span class="text-white font-bold text-xs">4</span>
+                    <span class="w-2 h-2 rounded-full bg-green-500"></span>
+                  </div>
+                  <div class="text-[8px] text-zinc-400 mt-0.5">Healthy</div>
+                </div>
+                <div class="bg-[#121216] p-2 rounded-xl border border-white/5">
+                  <div class="flex items-center justify-between">
+                    <span class="text-white font-bold text-xs">2</span>
+                    <span class="w-2 h-2 rounded-full bg-garage-orange"></span>
+                  </div>
+                  <div class="text-[8px] text-zinc-400 mt-0.5">Due Soon</div>
+                </div>
+                <div class="bg-[#121216] p-2 rounded-xl border border-white/5">
+                  <div class="flex items-center justify-between">
+                    <span class="text-white font-bold text-xs">1</span>
+                    <span class="w-2 h-2 rounded-full bg-red-500"></span>
+                  </div>
+                  <div class="text-[8px] text-zinc-400 mt-0.5">Overdue</div>
+                </div>
+              </div>
+
+              <!-- Filter Tabs -->
+              <div class="grid grid-cols-3 bg-[#121216] p-0.5 rounded-lg text-center text-[8.5px] font-bold">
+                <span class="py-1 bg-garage-orange text-black rounded-md">STATUS</span>
+                <span class="py-1 text-zinc-400">NEWEST</span>
+                <span class="py-1 text-zinc-400">COST</span>
+              </div>
+
+              <!-- Part 1: Engine Oil -->
+              <div class="bg-[#121216] p-2 rounded-xl border-l-2 border-garage-orange space-y-1">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-white text-[10px]">Engine Oil</span>
+                  <span class="text-[7px] font-bold px-1.5 py-0.5 rounded bg-garage-orange/20 text-garage-orange">DUE SOON</span>
+                </div>
+                <div class="grid grid-cols-3 text-[8px] pt-0.5">
+                  <div><div class="text-zinc-500">Current</div><div class="text-white font-semibold">54,000 km</div></div>
+                  <div><div class="text-zinc-500">Next at</div><div class="text-white font-semibold">55,000 km</div></div>
+                  <div><div class="text-zinc-500">Remaining</div><div class="text-garage-orange font-semibold">1,000 km</div></div>
+                </div>
+                <div class="w-full h-1 bg-zinc-800 rounded-full overflow-hidden">
+                  <div class="w-[88%] bg-garage-orange h-full"></div>
+                </div>
+              </div>
+
+              <!-- Part 2: Cabin Air Filter -->
+              <div class="bg-[#121216] p-2 rounded-xl border-l-2 border-green-500 space-y-1">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-white text-[10px]">Cabin Air Filter</span>
+                  <span class="text-[7px] font-bold px-1.5 py-0.5 rounded bg-green-500/20 text-green-400">HEALTHY</span>
+                </div>
+                <div class="grid grid-cols-3 text-[8px] pt-0.5">
+                  <div><div class="text-zinc-500">Current</div><div class="text-white font-semibold">45,500 km</div></div>
+                  <div><div class="text-zinc-500">Next at</div><div class="text-white font-semibold">60,000 km</div></div>
+                  <div><div class="text-zinc-500">Remaining</div><div class="text-green-400 font-semibold">6,500 km</div></div>
+                </div>
+                <div class="w-full h-1 bg-zinc-800 rounded-full overflow-hidden">
+                  <div class="w-[55%] bg-green-500 h-full"></div>
+                </div>
+              </div>
+
+              <!-- Part 3: Brake Pads -->
+              <div class="bg-[#121216] p-2 rounded-xl border-l-2 border-red-500 space-y-1">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-white text-[10px]">Brake Pads</span>
+                  <span class="text-[7px] font-bold px-1.5 py-0.5 rounded bg-red-500/20 text-red-400">CHECK NOW</span>
+                </div>
+                <div class="grid grid-cols-2 text-[8px] pt-0.5">
+                  <div><div class="text-zinc-500">Current</div><div class="text-white font-semibold">48,000 km</div></div>
+                  <div><div class="text-zinc-500">Status</div><div class="text-red-400 font-semibold">Inspection rec.</div></div>
+                </div>
+                <div class="w-full h-1 bg-zinc-800 rounded-full overflow-hidden">
+                  <div class="w-[94%] bg-red-500 h-full"></div>
+                </div>
+              </div>
+
+              <!-- Part 4: Battery -->
+              <div class="bg-[#121216] p-2 rounded-xl border-l-2 border-green-500 space-y-1">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-white text-[10px]">Battery</span>
+                  <span class="text-[7px] font-bold px-1.5 py-0.5 rounded bg-green-500/20 text-green-400">HEALTHY</span>
+                </div>
+                <div class="grid grid-cols-3 text-[8px] pt-0.5">
+                  <div><div class="text-zinc-500">Age</div><div class="text-white font-semibold">3 months</div></div>
+                  <div><div class="text-zinc-500">Life</div><div class="text-white font-semibold">3–5 yrs</div></div>
+                  <div><div class="text-zinc-500">Status</div><div class="text-green-400 font-semibold">Good</div></div>
+                </div>
+              </div>
+
+              <!-- Part 5: Tyres (From Uploaded Screenshot 3) -->
+              <div class="bg-[#121216] p-2 rounded-xl border-l-2 border-garage-orange space-y-1">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-white text-[10px]">Tyres</span>
+                  <span class="text-[7px] font-bold px-1.5 py-0.5 rounded bg-garage-orange/20 text-garage-orange">DUE SOON</span>
+                </div>
+                <div class="grid grid-cols-3 text-[8px] pt-0.5">
+                  <div><div class="text-zinc-500">Current</div><div class="text-white font-semibold">48,000 km</div></div>
+                  <div><div class="text-zinc-500">Next rot.</div><div class="text-white font-semibold">58,000 km</div></div>
+                  <div><div class="text-zinc-500">Remaining</div><div class="text-garage-orange font-semibold">4,000 km</div></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom CTA -->
+            <div class="pt-2">
+              <div class="w-full bg-garage-orange text-black font-bold text-center py-2 rounded-xl text-[10px]">
+                + Add Service Record
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- =================================================================== -->
+      <!-- QUICK 3-PILLAR HIGHLIGHT STRIP (BELOW HERO)                         -->
+      <!-- =================================================================== -->
+      <div class="mt-12 pt-8 border-t border-white/[0.08] grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl">
+        <!-- Pillar 1 -->
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 rounded-full bg-garage-orange/10 border border-garage-orange/30 flex items-center justify-center text-garage-orange shrink-0">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="font-bold text-white text-sm sm:text-base">Maintenance reminders</h3>
+            <p class="text-zinc-400 text-xs sm:text-sm">Never miss a service again</p>
+          </div>
+        </div>
+
+        <!-- Pillar 2 -->
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 rounded-full bg-garage-orange/10 border border-garage-orange/30 flex items-center justify-center text-garage-orange shrink-0">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18M3 22h12M15 11h2a2 2 0 0 1 2 2v4a2 2 0 0 0 2 2v0a2 2 0 0 0 2-2V9.83a2 2 0 0 0-.59-1.42L19 5M7 6h4v4H7z"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="font-bold text-white text-sm sm:text-base">Fuel & mileage tracking</h3>
+            <p class="text-zinc-400 text-xs sm:text-sm">Track every litre and trip</p>
+          </div>
+        </div>
+
+        <!-- Pillar 3 -->
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 rounded-full bg-garage-orange/10 border border-garage-orange/30 flex items-center justify-center text-garage-orange shrink-0">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="font-bold text-white text-sm sm:text-base">Expense insights</h3>
+            <p class="text-zinc-400 text-xs sm:text-sm">See where your money goes</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- FEATURES BENTO SECTION (MATCHING LOWER HALF OF IMAGE 1 + IMAGE 4)     -->
+  <!-- ===================================================================== -->
+  <section id="features" class="py-20 sm:py-24 bg-[#08080a]">
+    <div class="max-w-[1380px] mx-auto px-4 sm:px-8">
+      
+      <!-- Section Header -->
+      <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-14">
+        <div>
+          <div class="inline-flex items-center gap-3 mb-3">
+            <span class="w-7 h-[2px] bg-garage-orange"></span>
+            <span class="text-xs font-semibold uppercase tracking-[0.22em] text-zinc-400">FEATURES</span>
+          </div>
+          <h2 class="font-display font-extrabold text-3xl sm:text-4xl lg:text-[42px] text-white tracking-tight">
+            Everything your car needs, in one place
+          </h2>
+        </div>
+        <p class="text-zinc-400 text-sm sm:text-base max-w-md lg:text-right leading-relaxed">
+          Digital Garage helps you keep track of maintenance, fuel, and all vehicle-related expenses with a clean and simple interface.
+        </p>
+      </div>
+
+      <!-- 3 Main Feature Cards (Matching Image 1) -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- CARD 1: Stay ahead of service -->
+        <div class="bg-garage-card border border-garage-border rounded-3xl p-6 sm:p-7 flex flex-col justify-between hover:border-garage-orange/40 transition-colors">
+          <div>
+            <div class="flex items-start gap-4 mb-6">
+              <div class="w-12 h-12 rounded-2xl bg-garage-orange/15 border border-garage-orange/30 flex items-center justify-center text-garage-orange shrink-0">
+                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-display font-bold text-xl text-white">Stay ahead of service</h3>
+                <p class="text-zinc-400 text-sm mt-1 leading-relaxed">
+                  Keep track of every part, get reminders, and know what's due next.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Embedded App UI Card Preview -->
+          <div class="bg-[#0c0c0f] border border-white/[0.07] rounded-2xl p-4 space-y-3.5 tabular-nums">
+            <div class="text-xs font-bold text-white">Digital Garage</div>
+            <div class="flex items-center gap-3">
+              <img src="https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&w=240&q=80" alt="Honda City" class="w-14 h-9 object-cover rounded-lg" />
+              <div>
+                <div class="text-xs font-bold text-white uppercase">HONDA CITY</div>
+                <div class="text-[11px] text-zinc-400">Maintenance overview</div>
+              </div>
+            </div>
+            <div class="grid grid-cols-3 gap-2.5 pt-1">
+              <div class="bg-[#15151a] p-3 rounded-xl border border-white/5">
+                <div class="flex items-center justify-between">
+                  <span class="text-white font-bold text-base">4</span>
+                  <span class="w-2.5 h-2.5 rounded-full bg-green-500"></span>
+                </div>
+                <div class="text-[11px] text-zinc-400 mt-1">Healthy</div>
+              </div>
+              <div class="bg-[#15151a] p-3 rounded-xl border border-white/5">
+                <div class="flex items-center justify-between">
+                  <span class="text-white font-bold text-base">2</span>
+                  <span class="w-2.5 h-2.5 rounded-full bg-garage-orange"></span>
+                </div>
+                <div class="text-[11px] text-zinc-400 mt-1">Due Soon</div>
+              </div>
+              <div class="bg-[#15151a] p-3 rounded-xl border border-white/5">
+                <div class="flex items-center justify-between">
+                  <span class="text-white font-bold text-base">1</span>
+                  <span class="w-2.5 h-2.5 rounded-full bg-red-500"></span>
+                </div>
+                <div class="text-[11px] text-zinc-400 mt-1">Overdue</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 2: Know your real running cost -->
+        <div class="bg-garage-card border border-garage-border rounded-3xl p-6 sm:p-7 flex flex-col justify-between hover:border-garage-orange/40 transition-colors">
+          <div>
+            <div class="flex items-start gap-4 mb-6">
+              <div class="w-12 h-12 rounded-2xl bg-garage-orange/15 border border-garage-orange/30 flex items-center justify-center text-garage-orange shrink-0">
+                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"/>
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-display font-bold text-xl text-white">Know your real running cost</h3>
+                <p class="text-zinc-400 text-sm mt-1 leading-relaxed">
+                  Log all expenses and get clear insights with detailed breakdowns.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Embedded Expense Breakdown Preview -->
+          <div class="bg-[#0c0c0f] border border-white/[0.07] rounded-2xl p-4 space-y-4 tabular-nums">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-white">Expense Breakdown</span>
+              <span class="text-[11px] text-zinc-400 bg-zinc-800/80 px-2.5 py-1 rounded-lg">All Time ▾</span>
+            </div>
+            <div class="flex items-center gap-5">
+              <!-- SVG Donut -->
+              <div class="relative w-24 h-24 flex items-center justify-center shrink-0">
+                <svg class="w-full h-full -rotate-90" viewBox="0 0 36 36">
+                  <circle cx="18" cy="18" r="14" fill="none" stroke="#27272a" stroke-width="4.5"></circle>
+                  <circle cx="18" cy="18" r="14" fill="none" stroke="#ff7a00" stroke-width="4.5" stroke-dasharray="66 100"></circle>
+                  <circle cx="18" cy="18" r="14" fill="none" stroke="#22c55e" stroke-width="4.5" stroke-dasharray="12 100" stroke-dashoffset="-66"></circle>
+                  <circle cx="18" cy="18" r="14" fill="none" stroke="#a855f7" stroke-width="4.5" stroke-dasharray="10 100" stroke-dashoffset="-78"></circle>
+                  <circle cx="18" cy="18" r="14" fill="none" stroke="#3b82f6" stroke-width="4.5" stroke-dasharray="12 100" stroke-dashoffset="-88"></circle>
+                </svg>
+                <div class="absolute text-center">
+                  <div class="text-xs font-extrabold text-white">₹32,600</div>
+                  <div class="text-[10px] text-zinc-400">Total</div>
+                </div>
+              </div>
+
+              <!-- Breakdown Table -->
+              <div class="flex-1 space-y-2 text-xs">
+                <div class="flex items-center justify-between">
+                  <span class="flex items-center gap-2 text-zinc-300"><span class="w-2 h-2 rounded-full bg-garage-orange"></span>Service & Maint.</span>
+                  <span class="text-white font-semibold">₹24,800 <span class="text-zinc-500 ml-1">76%</span></span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="flex items-center gap-2 text-zinc-300"><span class="w-2 h-2 rounded-full bg-green-500"></span>Tyres</span>
+                  <span class="text-white font-semibold">₹3,200 <span class="text-zinc-500 ml-1">10%</span></span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="flex items-center gap-2 text-zinc-300"><span class="w-2 h-2 rounded-full bg-purple-500"></span>Parts</span>
+                  <span class="text-white font-semibold">₹2,500 <span class="text-zinc-500 ml-1">8%</span></span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="flex items-center gap-2 text-zinc-300"><span class="w-2 h-2 rounded-full bg-blue-500"></span>Other</span>
+                  <span class="text-white font-semibold">₹2,100 <span class="text-zinc-500 ml-1">6%</span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 3: Make every litre count -->
+        <div class="bg-garage-card border border-garage-border rounded-3xl p-6 sm:p-7 flex flex-col justify-between hover:border-garage-orange/40 transition-colors">
+          <div>
+            <div class="flex items-start gap-4 mb-6">
+              <div class="w-12 h-12 rounded-2xl bg-garage-orange/15 border border-garage-orange/30 flex items-center justify-center text-garage-orange shrink-0">
+                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18M3 22h12M15 11h2a2 2 0 0 1 2 2v4a2 2 0 0 0 2 2v0a2 2 0 0 0 2-2V9.83a2 2 0 0 0-.59-1.42L19 5M7 6h4v4H7z"/>
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-display font-bold text-xl text-white">Make every litre count</h3>
+                <p class="text-zinc-400 text-sm mt-1 leading-relaxed">
+                  Track fuel fill-ups, mileage and costs across time.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Embedded Fuel Efficiency Preview -->
+          <div class="bg-[#0c0c0f] border border-white/[0.07] rounded-2xl p-4 space-y-4 tabular-nums">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-white">Fuel Efficiency</span>
+              <span class="text-[11px] text-zinc-400 bg-zinc-800/80 px-2.5 py-1 rounded-lg">Oct 2025 ▾</span>
+            </div>
+            <div class="grid grid-cols-2 gap-3.5 items-center">
+              <div class="bg-[#15151a] p-3.5 rounded-xl border border-white/5">
+                <div class="text-xl font-extrabold text-white">16.8 km/l</div>
+                <div class="text-xs text-zinc-400 mt-0.5">Average Mileage</div>
+                <div class="text-xs text-green-400 font-semibold mt-2">↑ 5.2% vs last month</div>
+              </div>
+              <div class="bg-[#15151a] p-3.5 rounded-xl border border-white/5 space-y-2 text-xs">
+                <div class="flex justify-between">
+                  <span class="text-zinc-400">Best</span>
+                  <span class="text-white font-bold">19.2 km/l</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-zinc-400">Worst</span>
+                  <span class="text-white font-bold">14.5 km/l</span>
+                </div>
+                <div class="flex justify-between border-t border-white/5 pt-1.5">
+                  <span class="text-zinc-400">Total Distance</span>
+                  <span class="text-white font-bold">3,060 km</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- INTERACTIVE APP SCREEN SHOWCASE (ALL 4 UPLOADED SCREENS)              -->
+  <!-- ===================================================================== -->
+  <section id="screens" class="py-20 bg-[#0c0c10] border-y border-white/[0.06]">
+    <div class="max-w-[1380px] mx-auto px-4 sm:px-8">
+      
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <div class="inline-flex items-center gap-3 mb-3">
+          <span class="w-6 h-[2px] bg-garage-orange"></span>
+          <span class="text-xs font-semibold uppercase tracking-[0.22em] text-garage-orange">BUILT FOR ENTHUSIASTS & DAILY DRIVERS</span>
+          <span class="w-6 h-[2px] bg-garage-orange"></span>
+        </div>
+        <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-white">
+          Multi-car garage, wear tracking & service timelines
+        </h2>
+        <p class="text-zinc-400 text-sm sm:text-base mt-3">
+          Whether you drive a daily Honda City or a weekend Maruti Suzuki Swift, switch between vehicles effortlessly and log every rupee spent.
+        </p>
+      </div>
+
+      <!-- 2-Column Deep Showcase Based on Image 3 & Image 4 -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+        
+        <!-- LEFT PANEL: Multi-Vehicle "My Garage" UI (From Image 4 Left) -->
+        <div class="bg-garage-card border border-garage-border rounded-3xl p-6 sm:p-8 flex flex-col justify-between">
+          <div class="mb-6">
+            <span class="text-xs font-bold uppercase tracking-wider text-garage-orange bg-garage-orange/10 px-3 py-1 rounded-full">Multi-Vehicle Support</span>
+            <h3 class="font-display font-bold text-2xl text-white mt-3">Your Daily & Weekend Rides in One App</h3>
+            <p class="text-zinc-400 text-sm mt-1">Keep separate odometer readings, service schedules, and modification logs for every car you own.</p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 tabular-nums">
+            <!-- Vehicle Card 1: Daily Honda City -->
+            <div class="bg-[#0b0b0e] border border-white/10 rounded-2xl overflow-hidden group">
+              <div class="h-36 overflow-hidden relative">
+                <img src="https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&w=600&q=80" alt="Honda City" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              </div>
+              <div class="p-4 flex items-center justify-between">
+                <div>
+                  <div class="font-bold text-white text-base">Daily</div>
+                  <div class="text-zinc-400 text-xs">Honda City</div>
+                </div>
+                <span class="bg-[#18181f] text-garage-orange font-bold text-xs px-3 py-1.5 rounded-full border border-garage-orange/20">
+                  54,000 km
+                </span>
+              </div>
+            </div>
+
+            <!-- Vehicle Card 2: Weekend Maruti Suzuki Swift -->
+            <div class="bg-[#0b0b0e] border border-white/10 rounded-2xl overflow-hidden group">
+              <div class="h-36 overflow-hidden relative">
+                <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=80" alt="Maruti Suzuki Swift" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              </div>
+              <div class="p-4 flex items-center justify-between">
+                <div>
+                  <div class="font-bold text-white text-base">Weekend</div>
+                  <div class="text-zinc-400 text-xs">Maruti Suzuki Swift</div>
+                </div>
+                <span class="bg-[#18181f] text-garage-orange font-bold text-xs px-3 py-1.5 rounded-full border border-garage-orange/20">
+                  28,500 km
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4 pt-4 border-t border-white/5 flex items-center justify-between text-xs text-zinc-400">
+            <span>Supports unlimited vehicles, custom photos & mod logs</span>
+            <span class="text-garage-orange font-semibold">+ Add Vehicle</span>
+          </div>
+        </div>
+
+        <!-- RIGHT PANEL: Service Timeline & Next Service Reminder (From Image 4 Right) -->
+        <div class="bg-garage-card border border-garage-border rounded-3xl p-6 sm:p-8 flex flex-col justify-between tabular-nums">
+          <div class="mb-5">
+            <span class="text-xs font-bold uppercase tracking-wider text-green-400 bg-green-500/10 px-3 py-1 rounded-full">Complete Service Log</span>
+            <h3 class="font-display font-bold text-2xl text-white mt-3">Next Service Alerts & Timeline History</h3>
+            <p class="text-zinc-400 text-sm mt-1">Track exact odometer intervals and never lose a workshop invoice or part replacement date again.</p>
+          </div>
+
+          <!-- Next Service Banner -->
+          <div class="bg-[#18181f] border border-garage-orange/30 rounded-2xl p-4 flex items-center justify-between mb-5">
+            <div class="flex items-center gap-3.5">
+              <div class="w-10 h-10 rounded-xl bg-garage-orange/15 text-garage-orange flex items-center justify-center">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <div>
+                <div class="text-xs text-zinc-400 font-medium">Next Service</div>
+                <div class="text-sm font-bold text-white">Engine Oil Change</div>
+                <div class="text-xs text-garage-orange mt-0.5">Due in 1,000 km • or by 15 Dec 2025</div>
+              </div>
+            </div>
+            <span class="text-zinc-500 text-lg">›</span>
+          </div>
+
+          <!-- Vertical Timeline -->
+          <div class="space-y-3 relative before:absolute before:left-2 before:top-3 before:bottom-3 before:w-[2px] before:bg-garage-orange/40 pl-6">
+            <!-- Item 1 -->
+            <div class="relative bg-[#0c0c0f] border border-white/5 p-3.5 rounded-2xl flex items-center justify-between">
+              <span class="w-3 h-3 rounded-full bg-garage-orange absolute -left-[22px] top-1/2 -translate-y-1/2 ring-4 ring-[#121216]"></span>
+              <div>
+                <div class="font-bold text-white text-sm">Engine Oil Change</div>
+                <div class="text-xs text-zinc-400">12 Aug 2025 • 53,000 km — Engine oil and filter replaced</div>
+              </div>
+              <div class="text-white font-bold text-sm">₹3,200</div>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="relative bg-[#0c0c0f] border border-white/5 p-3.5 rounded-2xl flex items-center justify-between">
+              <span class="w-3 h-3 rounded-full bg-garage-orange absolute -left-[22px] top-1/2 -translate-y-1/2 ring-4 ring-[#121216]"></span>
+              <div>
+                <div class="font-bold text-white text-sm">Tyre Rotation</div>
+                <div class="text-xs text-zinc-400">10 Mar 2025 • 48,000 km — Front to rear rotation</div>
+              </div>
+              <div class="text-white font-bold text-sm">₹1,000</div>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="relative bg-[#0c0c0f] border border-white/5 p-3.5 rounded-2xl flex items-center justify-between">
+              <span class="w-3 h-3 rounded-full bg-garage-orange absolute -left-[22px] top-1/2 -translate-y-1/2 ring-4 ring-[#121216]"></span>
+              <div>
+                <div class="font-bold text-white text-sm">Cabin Air Filter</div>
+                <div class="text-xs text-zinc-400">05 Jan 2025 • 45,500 km — Replaced cabin air filter</div>
+              </div>
+              <div class="text-white font-bold text-sm">₹850</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- HOW IT WORKS + DIRECT AWS APK DOWNLOAD SECTION                        -->
+  <!-- ===================================================================== -->
+  <section id="how-it-works" class="py-20 sm:py-24 bg-[#08080a]">
+    <div class="max-w-[1380px] mx-auto px-4 sm:px-8">
+      
+      <!-- 3 Simple Steps -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
+        <div class="bg-garage-card/60 border border-garage-border p-6 rounded-2xl">
+          <div class="text-xs font-bold text-garage-orange mb-2">STEP 01</div>
+          <h4 class="font-display font-bold text-lg text-white">Download the Android APK</h4>
+          <p class="text-zinc-400 text-sm mt-1">Grab the latest beta build directly from our fast AWS cloud storage below.</p>
+        </div>
+        <div class="bg-garage-card/60 border border-garage-border p-6 rounded-2xl">
+          <div class="text-xs font-bold text-garage-orange mb-2">STEP 02</div>
+          <h4 class="font-display font-bold text-lg text-white">Add Your Car to the Garage</h4>
+          <p class="text-zinc-400 text-sm mt-1">Enter your vehicle make, model, current odometer reading, and photo.</p>
+        </div>
+        <div class="bg-garage-card/60 border border-garage-border p-6 rounded-2xl">
+          <div class="text-xs font-bold text-garage-orange mb-2">STEP 03</div>
+          <h4 class="font-display font-bold text-lg text-white">Track Fuel, Parts & Costs</h4>
+          <p class="text-zinc-400 text-sm mt-1">Log refuels and services in seconds and watch your cost breakdowns update live.</p>
+        </div>
+      </div>
+
+      <!-- Direct AWS Download CTA Box -->
+      <div id="download" class="relative rounded-3xl overflow-hidden border border-garage-orange/30 bg-gradient-to-br from-[#16120e] via-[#111115] to-[#0c0c10] p-8 sm:p-12 lg:p-14 shadow-2xl">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          
+          <div class="lg:col-span-7 space-y-4">
+            <div class="inline-flex items-center gap-2 bg-garage-orange/15 border border-garage-orange/30 text-garage-orange text-xs font-bold px-3 py-1 rounded-full">
+              <span id="release-version-badge">Android Beta • Latest Release</span>
+            </div>
+            <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-white tracking-tight">
+              Ready to take control of your car's maintenance?
+            </h2>
+            <p class="text-zinc-300 text-sm sm:text-base max-w-xl leading-relaxed">
+              Download the official Digital Garage Android APK directly from our AWS release bucket. No sign-up walls—install and start logging your garage today.
+            </p>
+            <div class="pt-2 flex flex-wrap items-center gap-4 text-xs text-zinc-400">
+              <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-green-500"></span> Android 8.0+ supported</span>
+              <span>•</span>
+              <span>APK size varies by release</span>
+              <span>•</span>
+              <span>HTTPS download</span>
+            </div>
+          </div>
+
+          <div class="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col items-stretch sm:items-center lg:items-end justify-end gap-3">
+            <a href="https://digital-garage-api.duckdns.org/api/download/apk" onclick="triggerApkDownload(event)"
+              class="apk-download-link bg-garage-orange hover:bg-garage-orangeHover text-black font-extrabold text-base sm:text-lg px-8 py-4 rounded-2xl shadow-orange-glow flex items-center justify-center gap-3 transition-all active:scale-95">
+              <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                <path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993.0001.5511-.4482.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.2439 13.8533 7.8508 12 7.8508s-3.5902.3931-5.1367 1.0989L4.841 5.4467a.4161.4161 0 00-.5677-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3435-4.1021-2.6892-7.5743-6.1185-9.4396"/>
+              </svg>
+              <span>Download for Android</span>
+            </a>
+            <div class="text-[11px] text-zinc-500 text-center lg:text-right">
+               APK beta · Play Store & App Store coming soon
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- FOOTER                                                                -->
+  <!-- ===================================================================== -->
+  <footer class="border-t border-white/[0.07] py-10 bg-[#060608] text-xs text-zinc-500">
+    <div class="max-w-[1380px] mx-auto px-4 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2.5">
+        <div class="w-7 h-7 rounded-lg bg-garage-orange/15 border border-garage-orange/40 flex items-center justify-center text-garage-orange">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9.5L12 4l9 5.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/>
+          </svg>
+        </div>
+        <span class="font-display font-bold text-white text-sm">Digital Garage</span>
+        <span>— Vehicle Maintenance & Expense Tracker</span>
+      </div>
+      <div>
+        © 2025 Digital Garage. APK Beta available for Android.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-5 right-5 z-50 hidden bg-[#16161d] border border-garage-orange/50 text-white px-4 py-3 rounded-2xl shadow-2xl text-xs sm:text-sm flex items-center gap-3">
+    <span class="w-2.5 h-2.5 rounded-full bg-garage-orange animate-ping"></span>
+    <span id="toast-msg">Starting download: digital-garage-latest.apk...</span>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- SCRIPT: BACKEND / CONFIG-DRIVEN AWS APK DOWNLOAD & UI INTERACTIONS    -->
+  <!-- ===================================================================== -->
+  <script>
+    /**
+     * The FastAPI download endpoint redirects to the current APK URL configured
+     * by AWS_APK_URL on the backend. Change the hostname below before deploying.
+     * To publish a newer APK, update AWS_APK_URL on the backend; the website
+     * does not need to be redeployed just to change the destination URL.
+     */
+    const RELEASE_CONFIG = {
+      endpoint: 'https://digital-garage-api.duckdns.org/api/download/apk',
+      fileName: 'digital-garage-beta.apk'
+    };
+
+    function bindDownloadLinks() {
+      document.querySelectorAll('.apk-download-link').forEach(link => {
+        link.setAttribute('href', RELEASE_CONFIG.endpoint);
+      });
+    }
+
+    function triggerApkDownload(event) {
+      if (event) event.preventDefault();
+      showToast('Redirecting to the latest Digital Garage APK...');
+      window.setTimeout(() => {
+        window.location.assign(RELEASE_CONFIG.endpoint);
+      }, 250);
+    }
+
+    // Keep all download buttons pointed at the FastAPI redirect endpoint.
+    document.addEventListener('DOMContentLoaded', bindDownloadLinks);
+
+    // Interactive Month vs Year Fuel Switcher on Left Hero Phone (Matches Screenshot 2)
+    function switchFuelView(mode) {
+      const monthTab = document.getElementById('fuel-tab-month');
+      const yearTab = document.getElementById('fuel-tab-year');
+      const title = document.getElementById('fuel-period-title');
+      const badge = document.getElementById('fuel-period-badge');
+      const litres = document.getElementById('fuel-metric-litres');
+      const cost = document.getElementById('fuel-metric-cost');
+      const avg = document.getElementById('fuel-metric-avg');
+      const dist = document.getElementById('fuel-metric-dist');
+
+      if (mode === 'year') {
+        yearTab.className = 'py-1 bg-garage-orange text-black font-bold rounded-md transition-colors';
+        monthTab.className = 'py-1 hover:text-white rounded-md transition-colors';
+        title.textContent = 'Yearly Overview';
+        badge.textContent = '2025 ▾';
+        litres.textContent = '2,148 L';
+        cost.textContent = '₹1,76,420';
+        avg.textContent = '16.4 km/l';
+        dist.textContent = '35,240 km';
+      } else {
+        monthTab.className = 'py-1 bg-garage-orange text-black font-bold rounded-md transition-colors';
+        yearTab.className = 'py-1 hover:text-white rounded-md transition-colors';
+        title.textContent = 'This Month';
+        badge.textContent = 'Oct 2025 ▾';
+        litres.textContent = '182 L';
+        cost.textContent = '₹14,560';
+        avg.textContent = '16.8 km/l';
+        dist.textContent = '3,060 km';
+      }
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const msg = document.getElementById('toast-msg');
+      msg.textContent = message;
+      toast.classList.remove('hidden');
+      setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 3200);
+    }
+
+    window.addEventListener('DOMContentLoaded', syncReleaseManifest);
+  </script>
+</body>
+</html>
